@@ -1,7 +1,7 @@
-# Sistema de Busca - Correios
+# Sistema de Busca de Entregas - Correios (G13)
 
 **Número da Lista:** 1 (Busca)<br>
-**Conteúdo da Disciplina:** Algoritmos de Busca, Hashing e Estruturas de Dados<br>
+**Conteúdo da Disciplina:** Algoritmos de Busca, Tabelas Hash e Modularização em C<br>
 
 ## Alunos
 | Matrícula | Aluno |
@@ -10,33 +10,60 @@
 | 23/2027476 | João Guilherme Capozzi |
 
 ## Sobre 
-O objetivo deste projeto é implementar um sistema de busca otimizado para entregas dos Correios. O programa processa uma base de dados de moradores (`base.txt`) e permite localizar pessoas associadas a um determinado CEP. O sistema aceita CEPs em múltiplos formatos (ex: `72444000` ou `72444-000`), realizando a limpeza e validação da entrada antes da consulta.
+O projeto consiste em um sistema de alta performance para a localização de moradores e rotas de entrega baseadas em CEP. 
 
-### ⚡ Análise de Complexidade (Evolução Técnica)
-Inicialmente, o sistema utilizava **Busca Sequencial** diretamente no arquivo de texto, o que resultava numa complexidade de tempo $\mathcal{O}(n)$, sendo ineficiente para bases de dados grandes. 
+Diferente de uma busca sequencial comum, o sistema carrega a base de dados em uma **Tabela Hash com Encadeamento**. Isso permite que, após o carregamento inicial, qualquer consulta seja realizada em tempo constante médio **$\mathcal{O}(1)$**, garantindo eficiência mesmo com milhares de registros.
 
-Para atingir os requisitos de eficiência da disciplina, o projeto foi refatorado para utilizar uma **Tabela Hash com Encadeamento Aberto**. 
-* **Carregamento:** Ao iniciar, o sistema lê o arquivo uma única vez e aloca os dados na Tabela Hash em memória.
-* **Busca:** Após o carregamento, as consultas de CEP possuem complexidade de tempo média **$\mathcal{O}(1)$**, tornando a resposta virtualmente instantânea, independentemente do volume de moradores.
+### Principais Características:
+* **Hashing Polinomial:** Implementação de função hash robusta para strings.
+* **Tratamento de Colisões:** Uso de listas encadeadas para gerir chaves sinônimas.
+* **Portabilidade:** Suporte total para Linux e Windows através de diretivas de pré-compilação.
+
+## Vídeo de Apresentação
+[![Vídeo do Projeto](https://img.shields.io/badge/YouTube-Assista%20Aqui-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=ID_DO_VIDEO)
 
 ## Screenshots
-*(Adicione aqui os links para as imagens do sistema a funcionar. Exemplo: `![Menu](caminho/para/imagem.png)`)*
-1. **[Screenshot 1 - Menu Principal e Carregamento]**: Mostrando a inicialização da Tabela Hash e as opções do sistema.
-2. **[Screenshot 2 - Busca com Sucesso]**: Exibindo os moradores localizados e a contagem total para um CEP válido.
-3. **[Screenshot 3 - Validação de Erro]**: Mostrando a mensagem de segurança quando o utilizador digita um CEP inválido (ex: letras ou tamanho errado).
+### Tela Inicial
+![Menu Inicial](./assets/imagemInicial.png)
+*Legenda: O sistema inicializa a Tabela Hash e apresenta as opções de busca e gestão.*
+
+### Base de Dados
+![Busca Sucesso](./assets/baseEDA2.png)
+*Legenda: Trecho do banco de dados em .txt.*
+
+### Busca por CEP com Sucesso
+![Busca Sucesso](./assets/resultadoseda2.png)
+*Legenda: Exemplo de retorno instantâneo de moradores encontrados para um CEP específico.*
+
+### Validação de Entrada
+![Validação CEP](./assets/cpfinvalido.png)
+*Legenda: O sistema barra entradas inválidas, garantindo que o CEP possua exatamente 8 dígitos.*
 
 ## Instalação 
-**Linguagem:** C (Padrão C99 ou superior)<br>
-**Framework:** Nenhum (Código nativo modularizado)<br>
+**Linguagem:** C<br>
+**Compilador:** GCC<br>
 
 ### Pré-requisitos
-* Compilador GCC instalado.
-* Ambiente Linux, macOS ou Windows.
-* A base de dados `base.txt` deve estar dentro de uma pasta chamada `data/` na raiz do projeto.
+Certifique-se de ter o `gcc` e o `make` instalados no seu sistema. No Linux (Ubuntu), você pode instalar com:
+sudo apt update && sudo apt install build-essentil 
 
-### Comandos de Execução
-O projeto foi modularizado, pelo que a compilação requer a interligação dos ficheiros. Utilize o `Makefile` incluído para compilar e executar rapidamente:
+## 🛠️ Execução (Makefile)
 
-1. Compile o código:
+O projeto utiliza um **Makefile** para automatizar a compilação de todos os módulos (`main.c`, `busca.c`, `arquivo.c`). Siga os comandos abaixo no terminal:
+
+1. **Compilar o projeto:**
    ```bash
    make
+
+2. Executar o sistema:
+   ```bash
+   ./buscaCorreios
+
+3. Limpar arquivos binários (opcional):
+   ```bash
+   make clean
+
+### Explicação dos Comandos:
+* **`make`**: Este comando invoca o compilador `gcc` para todos os arquivos `.c` dentro da pasta `src`, gerando o executável final.
+* **`./buscaCorreios`**: Executa o programa já compilado no ambiente Linux/macOS.
+* **`make clean`**: Remove o executável antigo para garantir uma compilação "limpa" caso você faça alterações no código.
