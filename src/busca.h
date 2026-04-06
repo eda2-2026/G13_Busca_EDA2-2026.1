@@ -5,10 +5,10 @@ typedef struct morador {
     char cpf[15];
     char nome[100];
     char cep[10];
-    struct morador *prox; // Ponteiro para tratar colisões (Encadeamento)
+    struct morador *prox; 
 } Morador;
 
-#define TAM_HASH 1001 // Tamanho primo para reduzir colisões
+#define TAM_HASH 1001 
 
 // Prototipagem das funções
 unsigned int funcao_hash(const char *cep);

@@ -3,7 +3,6 @@
 #include "busca.h"
 #include "arquivo.h"
 
-// A implementação real da função
 void carregar_base(Morador *tabela[]) {
     FILE *arquivo = fopen("data/base.txt", "r");
     if (!arquivo) {
@@ -13,7 +12,7 @@ void carregar_base(Morador *tabela[]) {
 
     char linha[256];
     while (fgets(linha, sizeof(linha), arquivo)) {
-        linha[strcspn(linha, "\n")] = 0; // Remove a quebra de linha
+        linha[strcspn(linha, "\n")] = 0; 
         char *cpf = strtok(linha, ";");
         char *nome = strtok(NULL, ";");
         char *cep = strtok(NULL, ";");
