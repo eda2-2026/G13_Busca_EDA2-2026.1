@@ -25,19 +25,15 @@ Diferente de uma busca sequencial comum, o sistema carrega a base de dados em um
 ## Screenshots
 ### Tela Inicial
 ![Menu Inicial](./assets/imagemInicial.png)
-*Legenda: O sistema inicializa a Tabela Hash e apresenta as opções de busca e gestão.*
 
 ### Base de Dados
 ![Busca Sucesso](./assets/baseEDA2.png)
-*Legenda: Trecho do banco de dados em .txt.*
 
 ### Busca por CEP com Sucesso
 ![Busca Sucesso](./assets/resultadoseda2.png)
-*Legenda: Exemplo de retorno instantâneo de moradores encontrados para um CEP específico.*
 
 ### Validação de Entrada
 ![Validação CEP](./assets/cpfinvalido.png)
-*Legenda: O sistema barra entradas inválidas, garantindo que o CEP possua exatamente 8 dígitos.*
 
 ## Instalação 
 **Linguagem:** C<br>
