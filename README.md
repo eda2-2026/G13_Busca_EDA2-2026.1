@@ -1,6 +1,6 @@
 # Sistema de Busca - Correios
 
-**Número da Lista:** 13 (Busca)<br>
+**Número da Lista:** 1 (Busca)<br>
 **Conteúdo da Disciplina:** Algoritmos de Busca, Hashing e Estruturas de Dados<br>
 
 ## Alunos
