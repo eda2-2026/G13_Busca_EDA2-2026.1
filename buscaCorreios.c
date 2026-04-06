@@ -2,34 +2,42 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <termios.h>
 #include <unistd.h>
 
-#define TAM_LINHA 256
+// --- SEÇÃO DE PORTABILIDADE (LINUX / WINDOWS) ---
+#ifdef _WIN32
+    #include <conio.h> // Nativo do Windows para getch()
+    #define CLEAR_SCREEN "cls"
+#else
+    #include <termios.h> // Necessário para emular getch() no Linux
+    #define CLEAR_SCREEN "clear"
 
-// Função para ler teclado sem apertar Enter (Nativa do Linux)
-char getch(void) {
-    char buf = 0;
-    struct termios old = {0};
-    tcgetattr(0, &old);
-    old.c_lflag &= ~ICANON;
-    old.c_lflag &= ~ECHO;
-    old.c_cc[VMIN] = 1;
-    old.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSANOW, &old);
-    read(0, &buf, 1);
-    old.c_lflag |= ICANON;
-    old.c_lflag |= ECHO;
-    tcsetattr(0, TCSADRAIN, &old);
-    return buf;
-}
+    // Implementação do getch para sistemas POSIX (Linux/MacOS)
+    char getch(void) {
+        char buf = 0;
+        struct termios old = {0};
+        tcgetattr(0, &old);
+        old.c_lflag &= ~ICANON;
+        old.c_lflag &= ~ECHO;
+        old.c_cc[VMIN] = 1;
+        old.c_cc[VTIME] = 0;
+        tcsetattr(0, TCSANOW, &old);
+        read(0, &buf, 1);
+        old.c_lflag |= ICANON;
+        old.c_lflag |= ECHO;
+        tcsetattr(0, TCSADRAIN, &old);
+        return buf;
+    }
+#endif
+// ------------------------------------------------
+
+#define TAM_LINHA 256
 
 // Trata a entrada: extrai só números, valida se tem 8 dígitos e insere o traço
 int tratar_cep(const char *entrada, char *cep_formatado) {
     char apenas_numeros[10];
     int count = 0;
 
-    // Filtra apenas os números da entrada
     for (int i = 0; entrada[i] != '\0'; i++) {
         if (isdigit(entrada[i])) {
             if (count < 8) {
@@ -39,12 +47,10 @@ int tratar_cep(const char *entrada, char *cep_formatado) {
         }
     }
 
-    // Se não tiver exatamente 8 números, é inválido
     if (count != 8) {
         return 0; 
     }
 
-    // Formata o array destino colocando o traço XXXXX-XXX
     sprintf(cep_formatado, "%c%c%c%c%c-%c%c%c", 
             apenas_numeros[0], apenas_numeros[1], apenas_numeros[2], apenas_numeros[3], apenas_numeros[4], 
             apenas_numeros[5], apenas_numeros[6], apenas_numeros[7]);
@@ -99,7 +105,7 @@ int main() {
     char cep_busca[10];
 
     do {
-        system("clear");
+        system(CLEAR_SCREEN); // Usa cls no Windows e clear no Linux
         printf("=================================\n");
         printf("        SISTEMA CORREIOS         \n");
         printf("=================================\n");
@@ -114,16 +120,14 @@ int main() {
         if (opcao == '1') {
             printf("1\n\n");
             
-            // Loop de validação do CEP
             while (1) {
                 printf("Digite o CEP para a rota de entrega (com ou sem traco): ");
                 scanf("%19s", entrada_cep);
                 
-                // Limpa o '\n' do buffer
                 while (getchar() != '\n'); 
 
                 if (tratar_cep(entrada_cep, cep_busca)) {
-                    break; // Sai do loop se o CEP for válido
+                    break; 
                 } else {
                     printf("\n[Erro] CEP invalido! O CEP deve conter exatamente 8 numeros.\n\n");
                 }
@@ -135,8 +139,14 @@ int main() {
             getch();
         } 
         else if (opcao == '2') {
-            printf("2\n\nAbrindo base.txt no editor padrao...\n");
-            system("xdg-open base.txt"); 
+            printf("2\n\nAbrindo base.txt...\n");
+            
+            // Comando portável para abrir o arquivo no editor padrão
+            #ifdef _WIN32
+                system("start base.txt"); 
+            #else
+                system("xdg-open base.txt"); 
+            #endif
             
             printf("\nPressione qualquer tecla para voltar ao menu...");
             getch();
@@ -144,7 +154,7 @@ int main() {
 
     } while (opcao != '0');
 
-    system("clear");
+    system(CLEAR_SCREEN);
     printf("Saindo do sistema...\n");
     return 0;
 }
