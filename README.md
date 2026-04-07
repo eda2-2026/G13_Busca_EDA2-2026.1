@@ -20,7 +20,7 @@ Diferente de uma busca sequencial comum, o sistema carrega a base de dados em um
 * **Portabilidade:** Suporte total para Linux e Windows através de diretivas de pré-compilação.
 
 ## Vídeo de Apresentação
-[![Vídeo do Projeto](https://img.shields.io/badge/YouTube-Assista%20Aqui-red?style=for-the-badge&logo=youtube)](https://www.youtube.com/watch?v=ID_DO_VIDEO)
+[![Vídeo do Projeto](https://img.shields.io/badge/YouTube-Assista%20Aqui-red?style=for-the-badge&logo=youtube)](https://youtu.be/jEnsSBmktuw)
 
 ## Screenshots
 ### Tela Inicial
